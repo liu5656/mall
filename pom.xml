@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.macro.mall</groupId>
+    <artifactId>mall</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+
+    <modules>
+        <module>mall-common</module>
+        <module>mall-mbg</module>
+        <module>mall-security</module>
+        <module>mall-demo</module>
+        <module>mall-admin</module>
+        <module>mall-search</module>
+        <module>mall-portal</module>
+
+    </modules>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+
+        <mall-common.version>1.0-SNAPSHOT</mall-common.version>
+        <mall-mbg.version>1.0-SNAPSHOT</mall-mbg.version>
+        <mall-security.version>1.0-SNAPSHOT</mall-security.version>
+
+        <pagehelper-starter.version>1.3.0</pagehelper-starter.version>
+        <pagehelper.version>5.2.0</pagehelper.version>
+
+        <druid.version>1.1.23</druid.version>
+        <hutool.version>5.4.0</hutool.version>
+        <mybatis-generator.version>1.4.0</mybatis-generator.version>
+        <mybatis.version>3.5.5</mybatis.version>
+        <mysql-connector.version>8.0.20</mysql-connector.version>
+        <spring-data-commons.version>2.3.0.RELEASE</spring-data-commons.version>
+
+        <swagger2.version>2.9.2</swagger2.version>
+        <swagger-models.version>1.6.0</swagger-models.version>
+        <swagger-annotations.version>1.6.0</swagger-annotations.version>
+
+        <jjwt.version>0.9.0</jjwt.version>
+
+        <aliyun-oss.version>2.5.0</aliyun-oss.version>
+
+        <logstash-logback.version>5.3</logstash-logback.version>
+
+        <minio.version>7.1.0</minio.version>
+
+    </properties>
+
+    <parent>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <groupId>org.springframework.boot</groupId>
+        <version>2.3.4.RELEASE</version>
+    </parent>
+
+    <dependencies>
+<!--        actuator-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+<!--        aop-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+<!--        test-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+<!--        lombok-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
+
+<!--    限制子模块使用相应依赖的版本号和scope-->
+    <dependencyManagement>
+        <dependencies>
+<!--            mall通用模块-->
+            <dependency>
+                <groupId>com.macro.mall</groupId>
+                <artifactId>mall-common</artifactId>
+                <version>${mall-common.version}</version>
+            </dependency>
+<!--            mall中的MBG生成模块-->
+            <dependency>
+                <groupId>com.macro.mall</groupId>
+                <artifactId>mall-mbg</artifactId>
+                <version>${mall-mbg.version}</version>
+            </dependency>
+<!--            mall中的安全模块-->
+            <dependency>
+                <groupId>com.macro.mall</groupId>
+                <artifactId>mall-security</artifactId>
+                <version>${mall-security.version}</version>
+            </dependency>
+<!--            Mybatis分页插件starter-->
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>${pagehelper-starter.version}</version>
+            </dependency>
+<!--            MyBatis分页插件-->
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper</artifactId>
+                <version>${pagehelper.version}</version>
+            </dependency>
+<!--            druid连接池-->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+<!--            Hutool工具包-->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+<!--            swagger相关-->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${swagger2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${swagger2.version}</version>
+            </dependency>
+<!--            解决2.9.2版本NumberFormatException-->
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-models</artifactId>
+                <version>${swagger-models.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>${swagger-annotations.version}</version>
+            </dependency>
+<!--            MyBatis生成器-->
+            <dependency>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-core</artifactId>
+                <version>${mybatis-generator.version}</version>
+            </dependency>
+<!--            MyBatis-->
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis</artifactId>
+                <version>${mybatis.version}</version>
+            </dependency>
+<!--            MySQL数据驱动-->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-connector.version}</version>
+            </dependency>
+<!--            SpringDat工具包-->
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-commons</artifactId>
+                <version>${spring-data-commons.version}</version>
+            </dependency>
+<!--            JWT-->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+<!--            阿里云OSS-->
+            <dependency>
+                <groupId>com.aliyun.oss</groupId>
+                <artifactId>aliyun-sdk-oss</artifactId>
+                <version>${aliyun-oss.version}</version>
+            </dependency>
+<!--            logstash-->
+            <dependency>
+                <groupId>net.logstash.logback</groupId>
+                <artifactId>logstash-logback-encoder</artifactId>
+                <version>${logstash-logback.version}</version>
+            </dependency>
+<!--            MinIO JAVA SDK-->
+            <dependency>
+                <groupId>io.minio</groupId>
+                <artifactId>minio</artifactId>
+                <version>${minio.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+</project>
