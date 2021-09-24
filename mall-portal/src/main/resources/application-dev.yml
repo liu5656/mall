@@ -1,0 +1,29 @@
+spring:
+
+# Redis
+  redis:
+    database: 0                            # Redis数据库索引（默认为0）
+    host: localhost
+    password:                             # Redis服务器连接密码（默认为空）
+    timeout: 300ms                        # Redis超时时间（单位毫秒）
+    port: 6379                            # Redis服务端口
+
+# MySQL
+  datasource:
+    url: jdbc:mysql://localhost:3306/mall?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+
+    druid:
+      initial-size: 5                     # 初始化连接池数量
+      min-idle: 10                        # 最小空闲连接
+      max-active: 20                      # 最大连接数
+      web-stat-filter:
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*" #不统计这些请求数据
+      stat-view-servlet:                  # 访问监控网页的登录用户名和密码
+        login-username: druid
+        login-password: druid
+
+
+
+

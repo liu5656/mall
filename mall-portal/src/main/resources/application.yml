@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: mall-portal
+  profiles:
+    active: dev
+
+
+# JWT
+jwt:
+  tokenHeader: Authorization              # jwt在消息头中的字段名
+  secret: mall-portal-secret              # jwt加解密的秘钥
+  expiration: 604800                      # jwt有效时间（60 * 60 * 24 * 7）
+  tokenHead: Bearer                       # jwt负载中的开头
+
+# 自定义redis key
+redis:
+  database: mall
+  key:
+    authCode: 'ums:authCode'
+    orderId: 'oms:orderId'
+    member: 'ums:member'
+  expire:
+    authCode: 90                # 验证码超时时间
+    common: 86400               # 24小时
