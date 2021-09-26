@@ -1,6 +1,7 @@
 package com.macro.mall.admin.service;
 
 import com.macro.mall.model.UmsMenu;
+import com.macro.mall.model.UmsResource;
 import com.macro.mall.model.UmsRole;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,6 +43,11 @@ public interface UmsRoleService {
      * 获取角色对应菜单
      */
     List<UmsMenu> listMenu(Long roleId);
+
+    /**
+     * 获取角色相关资源
+     */
+    List<UmsResource> listResource(Long roleId);
 
     /**
      * 给角色分配菜单

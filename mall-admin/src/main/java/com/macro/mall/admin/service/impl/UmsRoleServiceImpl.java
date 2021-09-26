@@ -81,6 +81,11 @@ public class UmsRoleServiceImpl implements UmsRoleService {
     }
 
     @Override
+    public List<UmsResource> listResource(Long roleId) {
+        return roleDao.getResourceListByRoleId(roleId);
+    }
+
+    @Override
     public int allocMenu(Long roleId, List<Long> menuIds) {
         UmsRoleMenuRelationExample example = new UmsRoleMenuRelationExample();
         example.createCriteria().andIdEqualTo(roleId);
