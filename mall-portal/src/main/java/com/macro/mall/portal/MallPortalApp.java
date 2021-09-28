@@ -1,4 +1,4 @@
-package com.lj.mall.portal;
+package com.macro.mall.portal;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date 2021/9/27 3:38 下午
  * @desc
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.macro.mall")
 public class MallPortalApp {
     public static void main(String[] args) {
         SpringApplication.run(MallPortalApp.class, args);

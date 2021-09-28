@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date 2021/9/23 10:02 上午
  * @desc
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.macro.mall")
 public class MallAdminApp {
     public static void main(String[] args) {
         SpringApplication.run(MallAdminApp.class, args);
