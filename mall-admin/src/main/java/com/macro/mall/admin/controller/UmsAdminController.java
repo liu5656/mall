@@ -2,14 +2,13 @@ package com.macro.mall.admin.controller;
 
 import com.macro.mall.admin.dto.UmsAdminLoginParam;
 import com.macro.mall.admin.dto.UmsAdminParam;
-import com.macro.mall.admin.dto.UpdateAdminPasswordParam;
+import com.macro.mall.admin.dto.UmsUpdateAdminPasswordParam;
 import com.macro.mall.admin.service.UmsAdminService;
 import com.macro.mall.admin.service.UmsRoleService;
 import com.macro.mall.common.api.CommonPage;
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.common.api.ResultCode;
 import com.macro.mall.model.UmsAdmin;
-import com.macro.mall.model.UmsAdminLoginLog;
 import com.macro.mall.model.UmsRole;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -136,7 +135,7 @@ public class UmsAdminController {
 
     @ApiOperation("修改指定用户密码")
     @PutMapping("/updatePassword")
-    public CommonResult updatePassword(@Validated @RequestBody UpdateAdminPasswordParam param) {
+    public CommonResult updatePassword(@Validated @RequestBody UmsUpdateAdminPasswordParam param) {
         int result = adminService.updatePassword(param);
         if (result > 0) {
             return CommonResult.success(null);

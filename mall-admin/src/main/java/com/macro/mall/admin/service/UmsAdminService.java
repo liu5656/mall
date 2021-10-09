@@ -1,7 +1,7 @@
 package com.macro.mall.admin.service;
 
 import com.macro.mall.admin.dto.UmsAdminParam;
-import com.macro.mall.admin.dto.UpdateAdminPasswordParam;
+import com.macro.mall.admin.dto.UmsUpdateAdminPasswordParam;
 import com.macro.mall.model.UmsAdmin;
 import com.macro.mall.model.UmsResource;
 import com.macro.mall.model.UmsRole;
@@ -78,7 +78,7 @@ public interface UmsAdminService {
     /**
      * 修改密码
      */
-    int updatePassword(UpdateAdminPasswordParam passwordParam);
+    int updatePassword(UmsUpdateAdminPasswordParam passwordParam);
 
     /**
      * 获取用户信息

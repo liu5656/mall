@@ -6,7 +6,7 @@ import com.github.pagehelper.PageHelper;
 import com.macro.mall.admin.bo.AdminUserDetails;
 import com.macro.mall.admin.dao.UmsAdminRoleRelationDao;
 import com.macro.mall.admin.dto.UmsAdminParam;
-import com.macro.mall.admin.dto.UpdateAdminPasswordParam;
+import com.macro.mall.admin.dto.UmsUpdateAdminPasswordParam;
 import com.macro.mall.admin.service.UmsAdminCacheService;
 import com.macro.mall.admin.service.UmsAdminService;
 import com.macro.mall.common.exception.Asserts;
@@ -231,7 +231,7 @@ public class UmsAdminServiceImpl implements UmsAdminService {
     }
 
     @Override
-    public int updatePassword(UpdateAdminPasswordParam param) {
+    public int updatePassword(UmsUpdateAdminPasswordParam param) {
         if (StrUtil.isEmpty(param.getUsername())
                 || StrUtil.isEmpty(param.getOldPassword())
                 || StrUtil.isEmpty(param.getNewPassword())) {

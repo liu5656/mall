@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Data
 public class PromotionProduct extends PmsProduct {
-    private List<PmsSkuStock> skuStockList;
-    private List<PmsProductLadder> productLadderList;
-    private List<PmsProductFullReduction> productFullReductionList;
+    private List<PmsSkuStock> skuStockList;                         // 商品库存信息
+    private List<PmsProductLadder> productLadderList;               // 商品打折策略
+    private List<PmsProductFullReduction> productFullReductionList; // 商品满减策略
 }
