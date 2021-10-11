@@ -15,7 +15,7 @@
                  #{item.sale,jdbcType=INTEGER},
                  #{item.spDate,jdbcType=VARCHAR})
             </foreach>
-        </insert>
+    </insert>
 
     <insert id="replaceList">
         replace into pms_sku_stock (id, product_id, sku_code, price, stock, low_stock, pic, sale, sp_date) values
