@@ -33,7 +33,6 @@ public class PmsProductCategoryServiceImpl implements PmsProductCategoryService 
     @Autowired private PmsProductCategoryAttributeRelationDao relationDao;
     @Autowired private PmsProductCategoryAttributeRelationMapper relationMapper;
     @Autowired private PmsProductCategoryDao categoryDao;
-    // TODO dao
 
     @Override
     public int create(PmsProductCategoryParam param) {

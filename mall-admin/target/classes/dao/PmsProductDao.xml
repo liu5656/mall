@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.macro.mall.admin.dao.PmsProductDao">
+
+    <resultMap id="updateInfoMap" type="com.macro.mall.admin.dto.PmsProductResult" extends="com.macro.mall.mapper.PmsProductMapper.ResultMapWithBLOBs">
+        <result property="cateParentId" column="cateParentId" jdbcType="BIGINT"/>
+        <collection property="productLadderList" columnPrefix="ladder_" resultMap="com.macro.mall.mapper.PmsProductLadderMapper.BaseResultMap"/>
+        <collection property="productFullReductionList" columnPrefix="full_" resultMap="com.macro.mall.mapper.PmsProductFullReductionMapper.BaseResultMap"/>
+        <collection property="memberPriceList" columnPrefix="member_" resultMap="com.macro.mall.mapper.PmsMemberPriceMapper.BaseResultMap"/>
+        <collection property="skuStockList" columnPrefix="sku_" resultMap="com.macro.mall.mapper.PmsSkuStockMapper.BaseResultMap"/>
+        <collection property="productAttributeValueList" columnPrefix="attribute_" resultMap="com.macro.mall.mapper.PmsProductAttributeValueMapper.BaseResultMap"/>
+        <collection property="subjectProductRelationList" column="{product=id}" select="selectSubjectProductRelationByProductId"/>
+        <collection property="preferenceAreaProductRelationList" column="{productId=id}" select="selectPreferenceAreaProductRelationByProductId"/>
+    </resultMap>
+    
+    <select id="selectSubjectProductRelationByProductId" resultMap="com.macro.mall.mapper.CmsSubjectProductRelationMapper.BaseResultMap">
+        select * from cms_subject_product_relation where product_id = #{productId}
+    </select>
+    
+    <select id="selectPreferenceAreaProductRelationByProductId" resultMap="com.macro.mall.mapper.CmsPrefrenceAreaProductRelationMapper.BaseResultMap">
+        select * from cms_prefrence_area_product_relation where product_id = #{productId}
+    </select>
+
+    <select id="getUpdateInfo" resultMap="updateInfoMap">
+        select *,
+               pc.parent_id cateParentId,
+               l.id ladder_id, l.product_id ladder_product_id, l.discount ladder_discount, l.count ladder_count, l.price ladder_price,
+               pf.id full_id, pf.product_id full_product_id, pf.full_price full_full_price, pf.reduce_price full_reduce_price,
+               m.id member_id, m.product_id member_product_id, m.member_level_id member_member_level_id, m.member_price member_member_price, m.member_level_name member_member_level_name,
+               s.id sku_id, s.product_id sku_product_id, s.price sku_price, s.low_stock sku_low_stock, s.pic sku_pic, s.sale sku_sale, s.sku_code sku_sku_code, s.stock sku_stock, s.sp_data sku_sp_data,
+               a.id attribute_id, a.product_id attribute_product_id, a.product_attribute_id attribute_product_attribute_id, a.value attribute_value
+        from pms_product p
+            left join pms_product_category pc on pc.id = p.product_category_id
+            left join pms_product_ladder l on l.product_id = p.id
+            left join pms_product_full_reduction pf on pf.product_id = p.id
+            left join pms_member_price m on m.product_id = p.id
+            left join pms_sku_stock s on s.product_id = p.id
+            left join pms_product_attribute_value a on a.product_id = p.id
+        where p.id = #{id};
+    </select>
+
+</mapper>
