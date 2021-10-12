@@ -2,6 +2,7 @@ package com.macro.mall.admin.controller;
 
 import com.macro.mall.admin.dto.PmsProductAttributeCategoryItem;
 import com.macro.mall.admin.service.PmsProductAttributeCategoryService;
+import com.macro.mall.common.api.CommonPage;
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.model.PmsProductAttributeCategory;
 import io.swagger.annotations.Api;
@@ -43,13 +44,6 @@ public class PmsProductAttributeCategoryController {
         return CommonResult.failed("删除商品属性分类失败");
     }
 
-    @ApiOperation("获取商品属性分类")
-    @GetMapping("/{categoryId}")
-    public CommonResult getItem(@PathVariable("categoryId") Long id) {
-        PmsProductAttributeCategory category = categoryService.getItem(id);
-        return CommonResult.success(category);
-    }
-
     @ApiOperation("修改商品属性分类")
     @PostMapping("/update/{categoryId}")
     public CommonResult update(@PathVariable("categoryId") Long id, @RequestParam String name) {
@@ -60,10 +54,23 @@ public class PmsProductAttributeCategoryController {
         return CommonResult.failed("修改商品属性分类失败");
     }
 
+    @ApiOperation("获取商品属性分类")
+    @GetMapping("/{id}")
+    public CommonResult getItem(@PathVariable("id") Long id) {
+        PmsProductAttributeCategory category = categoryService.getItem(id);
+        return CommonResult.success(category);
+    }
     @ApiOperation("获取所有商品分类及其属性")
     @GetMapping("/list/withAttr")
     public CommonResult getListWithAttr() {
         List<PmsProductAttributeCategoryItem> items = categoryService.getListWithAttr();
         return CommonResult.success(items);
+    }
+    @ApiOperation("分页获取商品属性分类")
+    @GetMapping("/list")
+    public CommonResult<CommonPage<PmsProductAttributeCategory>> getList(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                                                         @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
+        List<PmsProductAttributeCategory> categories = categoryService.getList(pageNum, pageSize);
+        return CommonResult.success(CommonPage.restPage(categories));
     }
 }
