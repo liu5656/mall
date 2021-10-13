@@ -3,7 +3,6 @@ package com.macro.mall.admin.controller;
 import com.macro.mall.admin.service.SmsCouponHistoryService;
 import com.macro.mall.common.api.CommonPage;
 import com.macro.mall.common.api.CommonResult;
-import com.macro.mall.model.SmsCoupon;
 import com.macro.mall.model.SmsCouponHistory;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
