@@ -28,7 +28,7 @@ public class CmsSubjectController {
 
     @ApiOperation("获取全部商品专题")
     @GetMapping("/listAll")
-    public CommonResult listAll() {
+    public CommonResult<List<CmsSubject>> listAll() {
         List<CmsSubject> subjects = subjectService.listAll();
         return CommonResult.success(subjects);
     }
