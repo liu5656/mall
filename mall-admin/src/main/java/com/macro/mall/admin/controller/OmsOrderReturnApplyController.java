@@ -1,6 +1,5 @@
 package com.macro.mall.admin.controller;
 
-import com.macro.mall.admin.dto.OmsOrderDetail;
 import com.macro.mall.admin.dto.OmsReturnApplyQueryParam;
 import com.macro.mall.admin.dto.OmsReturnApplyResult;
 import com.macro.mall.admin.dto.OmsUpdateStatusParam;
@@ -21,7 +20,7 @@ import java.util.List;
  * @date 2021/10/19 2:04 下午
  * @desc
  */
-@Api(tags = "OmsOrderReturnAPplyController", description = "订单退货申请管理")
+@Api(tags = "OmsOrderReturnAplyController", description = "订单退货申请管理")
 @RestController
 @RequestMapping("/returnApply")
 public class OmsOrderReturnApplyController {
