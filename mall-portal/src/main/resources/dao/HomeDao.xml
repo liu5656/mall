@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.macro.mall.portal.dao.HomeDao">
+
+    <resultMap id="flashPromotionProduct" type="com.macro.mall.portal.domain.FlashPromotionProduct" extends="com.macro.mall.mapper.PmsProductMapper.BaseResultMap">
+        <result column="flash_promotion_price" property="flashPromotionPrice"/>
+        <result column="flash_promotion_count" property="flashPromotionCount"/>
+        <result column="flash_promotion_limit" property="flashPromotionLimit"/>
+    </resultMap>
+
+    <select id="getRecommendBrandList" resultMap="com.macro.mall.mapper.PmsBrandMapper.BaseResultMap">
+        select b.*
+        from sms_home_brand hb
+            left join pms_brand b on hb.brand_id = b.id
+        where hb.recommend_status = 1 and b.show_status = 1
+        order by hb.sort desc
+        limit #{offset}, #{limit}
+    </select>
+
+    <select id="getFlashProductList" resultMap="flashPromotionProduct">
+        select
+               pr.flash_promotion_price,
+               pr.flash_promotion_count,
+               pr.flash_promotion_limit,
+               p.*
+        from sms_flash_promotion_product_relation pr
+            left join pms_product p on pr.product_id = p.id
+        where pr.flash_promotion_id = #{flashPromotionId} and pr.session_id = #{sessionId}
+    </select>
+
+    <select id="getNewProductList" resultMap="com.macro.mall.mapper.PmsProductMapper.BaseResultMap">
+        select p.*
+        from sms_home_new_product hp
+            left join pms_product p on hp.product_id = p.id
+        where hp.recommend_status = 1 and p.publish_status = 1
+        order by hp.sort desc
+        limit #{offset}, #{limit}
+    </select>
+
+    <select id="getHotProductList" resultMap="com.macro.mall.mapper.PmsProductMapper.BaseResultMap">
+        select  *
+        from sms_home_recommend_product hp
+            left join pms_product p on hp.product_id = p.id
+        where hp.recommend_status = 1 and p.publish_status = 1
+        order by hp.sort desc
+        limit #{offset}, #{limit}
+    </select>
+
+    <select id="getRecommendSubjectList" resultMap="com.macro.mall.mapper.CmsSubjectMapper.BaseResultMap">
+        select s.*
+        from sms_home_recommend_subject hs
+            left join cms_subject s on hs.subject_id = s.id
+        where hs.recommend_status = 1 and s.show_status = 1
+        order by hs.sort desc
+        limit #{offset},#{limit}
+    </select>
+
+</mapper>
