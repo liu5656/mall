@@ -66,10 +66,10 @@ public class HomeServiceImpl implements HomeService {
     public List<CmsSubject> getSubjectList(Long cateId, Integer pageNum, Integer pageSize) {
         CmsSubjectExample example = new CmsSubjectExample();
         CmsSubjectExample.Criteria criteria = example.createCriteria();
-//        criteria.andShowStatusEqualTo(1);
-//        if (cateId != null) {
-//            criteria.andCategoryIdEqualTo(cateId);
-//        }
+        criteria.andShowStatusEqualTo(1);
+        if (cateId != null) {
+            criteria.andCategoryIdEqualTo(cateId);
+        }
         return subjectMapper.selectByExample(example);
     }
 
