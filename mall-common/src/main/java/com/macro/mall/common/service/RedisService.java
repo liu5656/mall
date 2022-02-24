@@ -60,6 +60,7 @@ public interface RedisService {
 
     /**
      * 保存属性
+     * 保存时间（单位秒）
      */
     void set(String key, Object value, long time);
 

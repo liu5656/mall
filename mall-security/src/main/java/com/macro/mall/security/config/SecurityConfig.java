@@ -30,6 +30,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
     @Autowired private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
 
+    @Autowired private DynamicSecurityFilter dynamicSecurityFilter;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = http.authorizeRequests();
@@ -48,23 +50,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         // 其他请求需要身份认证
         registry.and().authorizeRequests().anyRequest().authenticated();
-        // 关闭跨站请求防护，不实用session
+        // 关闭跨站请求防护，不使用session
         registry.and().csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
         // 自定义权限拒绝处理类
         registry.and().exceptionHandling().accessDeniedHandler(restfulAccessDeniedHandler).authenticationEntryPoint(restAuthenticationEntryPoint);
+
         // 自定义权限拦截器JWT过滤器
         registry.and().addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
         // 有动态权限配置时添加动态权限校验过滤器
         if (dynamicSecurityService != null) {
-            registry.and().addFilterBefore(dynamicSecurityFilter(), FilterSecurityInterceptor.class);
+            registry.and().addFilterBefore(dynamicSecurityFilter, FilterSecurityInterceptor.class);
         }
     }
 
-    @Bean
-    @ConditionalOnBean(name = "dynamicSecurityService")
-    public DynamicSecurityFilter dynamicSecurityFilter() {
-        return new DynamicSecurityFilter();
-    }
+//    @Bean
+//    @ConditionalOnBean(name = "dynamicSecurityService")
+//    public DynamicSecurityFilter dynamicSecurityFilter() {
+//        return new DynamicSecurityFilter();
+//    }
 
     @Bean
     @ConditionalOnBean(name = "dynamicSecurityService")

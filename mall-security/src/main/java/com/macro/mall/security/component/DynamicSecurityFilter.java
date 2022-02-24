@@ -7,6 +7,7 @@ import org.springframework.security.access.SecurityMetadataSource;
 import org.springframework.security.access.intercept.AbstractSecurityInterceptor;
 import org.springframework.security.access.intercept.InterceptorStatusToken;
 import org.springframework.security.web.FilterInvocation;
+import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 
 import javax.servlet.*;
@@ -20,6 +21,7 @@ import java.io.IOException;
  * @date 2021/9/23 3:04 下午
  * @desc
  */
+@Component
 public class DynamicSecurityFilter extends AbstractSecurityInterceptor implements Filter {
     @Autowired private DynamicSecurityMetadataSource metadataSource;
     @Autowired private IgnoreUrlsConfig urlsConfig;

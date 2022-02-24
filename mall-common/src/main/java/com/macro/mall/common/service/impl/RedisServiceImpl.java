@@ -69,6 +69,8 @@ public class RedisServiceImpl implements RedisService {
         redisTemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
     }
 
+
+
     @Override
     public void set(String key, Object value) {
         redisTemplate.opsForValue().set(key, value);

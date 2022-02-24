@@ -2,16 +2,17 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="mall-security" />
-        <module name="mall-admin" />
         <module name="mall-search" />
         <module name="mall-mbg" />
-        <module name="mall-demo" />
         <module name="mall-common" />
+        <module name="mall-admin" />
+        <module name="mall-security" />
+        <module name="mall-demo" />
         <module name="mall-portal" />
       </profile>
     </annotationProcessing>
