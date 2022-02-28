@@ -1,4 +1,4 @@
-package com.macro.mall.security.component;
+package com.macro.mall.security.component.accessDenied;
 
 import cn.hutool.json.JSONUtil;
 import com.macro.mall.common.api.CommonResult;
@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 自定义返回结果：没有权限访问时
+ * 自定义返回结果：没有权限访问时（认证用户访问无权限资源的异常处理类）
  * @version 1.0
  * @Author lj
  * @date 2021/9/23 1:51 下午

@@ -1,14 +1,19 @@
-package com.macro.mall.security.component;
+package com.macro.mall.security.component.filter;
 
 import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.json.JSON;
+import cn.hutool.json.JSONUtil;
+import com.macro.mall.common.exception.SignException;
 import com.macro.mall.common.service.RedisService;
+import com.macro.mall.security.component.CustomHttpServletRequestWrapper;
 import com.macro.mall.security.util.JwtTokenUtil;
 import com.macro.mall.security.util.SignatureUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Date;
-import java.util.Enumeration;
+import java.util.Map;
 
 /**
  * JWT登录授权过滤器
@@ -50,36 +55,30 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
 
-//        String method = request.getMethod();
-//        String bodyStr = "";
-//        if (method.equals("GET")) {
-//            bodyStr = request.getQueryString();
-//        }else if (method.equals("POST")) {
-//            BufferedReader reader = request.getReader();
-//            String line = reader.readLine();
-//            while(line != null) {
-//                bodyStr += line;
-//                line = reader.readLine();
-//            }
-//            bodyStr = bodyStr.replaceAll("\\s", "").replaceAll("\n", "");
-//
-//
-//
-//        }
-//        log.info("消息：" + bodyStr);
+        if (request.getMethod().toString().equals(HttpMethod.OPTIONS.toString())) {
+            chain.doFilter(request, response);
+            return;
+        }
 
-
+        CustomHttpServletRequestWrapper requestWrapper = new CustomHttpServletRequestWrapper(request);
+         Map<String, Object> map = (Map<String, Object>) JSONUtil.parse(requestWrapper.body);
+         log.info("路径" + requestWrapper.getPathInfo() + " 参数： " + map.toString());
+         try {
+             SignatureUtil.verifySignature(map);
+             timestampValid(map.get("timestamp").toString());
+             String nonce = map.get("nonce").toString();
+             nonceValid(nonce);
+             redisService.set(nonce, 0,60);
+         }catch (Exception e) {
+             e.printStackTrace();
+         }
         // 校验JWT
         String header = request.getHeader(tokenHeader);
 
         if (header != null && header.startsWith(tokenHead)) {
-
             String authToken = header.substring(tokenHead.length());
-
             String username = tokenUtil.retrieveUsername(authToken);
-
             log.info("checking username:{}", username);
-
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                 if (tokenUtil.validateToken(authToken, userDetails)) {
@@ -90,23 +89,28 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                 }
             }
         }
-        chain.doFilter(request, response);
+        chain.doFilter(requestWrapper, response);
     }
 
-    private boolean timestampValid(String timestamp) {
-        Date begin = DateUtil.date(Long.parseLong(timestamp) * 1000);
+    private boolean timestampValid(String timestamp) throws IOException {
+        Date begin = DateUtil.date(Long.parseLong(timestamp));
         Date end = DateUtil.date();
         long delta = DateUtil.between(begin, end, DateUnit.SECOND);
-        return  delta > 60;
-    }
-
-    private  boolean nonceValid(String nonce) throws ServletException {
-        boolean res = redisService.hasKey(nonce);
-        if (res == false) {
-            redisService.set(nonce, 0,60);
+        if (delta > 60) {   // timeout
+            throw new IOException("时间过期");
         }
-        return res == false;
+        return true;
     }
 
-
+    private  boolean nonceValid(String nonce) throws IOException {
+        if (redisService.hasKey(nonce)) {
+            throw new IOException("重复请求");
+        }
+        return true;
+//        boolean res = redisService.hasKey(nonce);
+//        if (res == false) {
+//            redisService.set(nonce, 0,60);
+//        }
+//        return res == false;
+    }
 }

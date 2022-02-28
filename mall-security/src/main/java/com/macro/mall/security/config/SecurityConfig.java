@@ -1,7 +1,10 @@
 package com.macro.mall.security.config;
 
 import com.macro.mall.security.component.*;
-import com.macro.mall.security.util.JwtTokenUtil;
+import com.macro.mall.security.component.accessDenied.RestAuthenticationEntryPoint;
+import com.macro.mall.security.component.accessDenied.RestfulAccessDeniedHandler;
+import com.macro.mall.security.component.filter.DynamicSecurityFilter;
+import com.macro.mall.security.component.filter.JwtAuthenticationTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
@@ -39,12 +42,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        registry.antMatchers("/**")//测试时全部运行访问
 //                .permitAll();
 
-        System.out.println("------------开始过滤路径");
+        System.out.println("------------开始设置访问白名单路径");
         // 不需要保护的资源路径允许访问
         for (String url : ignoreUrlsConfig.getUrls()) {
-            System.out.println("------------开始过滤路径");
+            System.out.println(url);
             registry.antMatchers(url).permitAll();
         }
+        System.out.println("------------结束设置访问白名单路径");
         // 允许跨域请求的options
         registry.antMatchers(HttpMethod.OPTIONS).permitAll();
 
@@ -53,9 +57,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 关闭跨站请求防护，不使用session
         registry.and().csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        // 自定义权限拒绝处理类
-        registry.and().exceptionHandling().accessDeniedHandler(restfulAccessDeniedHandler).authenticationEntryPoint(restAuthenticationEntryPoint);
+        // 无权限自定义处理类
+        registry.and().exceptionHandling()
+                .accessDeniedHandler(restfulAccessDeniedHandler)                // 匿名用户访问无权限资源的异常处理
+                .authenticationEntryPoint(restAuthenticationEntryPoint);        // 认证用户访问无权限资源的异常处理
 
+        // filter
         // 自定义权限拦截器JWT过滤器
         registry.and().addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
         // 有动态权限配置时添加动态权限校验过滤器
