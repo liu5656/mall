@@ -2,6 +2,7 @@ package com.macro.mall.security.component.filter;
 
 import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.net.url.UrlQuery;
 import cn.hutool.json.JSON;
 import cn.hutool.json.JSONUtil;
 import com.macro.mall.common.exception.SignException;
@@ -29,6 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -61,8 +63,17 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         }
 
         CustomHttpServletRequestWrapper requestWrapper = new CustomHttpServletRequestWrapper(request);
-         Map<String, Object> map = (Map<String, Object>) JSONUtil.parse(requestWrapper.body);
-         log.info("路径" + requestWrapper.getPathInfo() + " 参数： " + map.toString());
+        log.info("收到数据：" + requestWrapper.body);
+        Map<String, Object> map = new HashMap<String, Object>();
+        if (request.getMethod().toString().equals(HttpMethod.GET.toString())) {
+            Map<CharSequence, CharSequence> temp = UrlQuery.of(request.getQueryString(), null).getQueryMap();
+            for (Map.Entry<CharSequence, CharSequence> entry : temp.entrySet()) {
+                map.put(entry.getKey().toString(), entry.getValue().toString());
+            }
+        }else{
+            map = (Map<String, Object>) JSONUtil.parse(requestWrapper.body);
+        }
+         log.info("开始解析数据：路径" + requestWrapper.getPathInfo() + " 参数： " + map.toString());
          try {
              SignatureUtil.verifySignature(map);
              timestampValid(map.get("timestamp").toString());

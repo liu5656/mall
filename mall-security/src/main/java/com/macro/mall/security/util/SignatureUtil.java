@@ -32,7 +32,7 @@ public class SignatureUtil {
         byte[] bytes = str.getBytes("UTF-8");
         String signLocal = DigestUtils.md5DigestAsHex(bytes).toUpperCase();
         if (signRemote.equals(signLocal) == false) {
-            log.info("\n签名错误：\n\t原始值：" + str + "\n\t服务端签名：" + signLocal + "\n\t客户端签名：" + signRemote);
+            log.info("\n签名错误：\n\t服务端原始值：" + str + "\n\t服务端签名：" + signLocal + "\n\t客户端签名：" + signRemote);
             throw  new SignException("签名错误");
         }
         return true;

@@ -1,5 +1,9 @@
 package com.macro.mall.security.component;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.net.url.UrlQuery;
+import cn.hutool.http.HttpUtil;
+
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;

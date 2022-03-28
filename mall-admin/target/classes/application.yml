@@ -51,5 +51,11 @@ jwt:
   expiration: 604800
   tokenHead: 'Bearer '
 
+minio:
+  endpoint: http://localhost:9000
+  bucketName: bibib
+  accessKey: username
+  secretKey: password
+
 
 

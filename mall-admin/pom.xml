@@ -25,6 +25,13 @@
             <groupId>com.macro.mall</groupId>
             <artifactId>mall-security</artifactId>
         </dependency>
+
+<!--            MinIO JAVA SDK-->
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>
